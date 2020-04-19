@@ -16,7 +16,7 @@ exports.genre_create_get = function(res, req) {
 }
 
 // handle genre create on POST
-exports.genere_create_post = function(res, req) {
+exports.genre_create_post = function(res, req) {
     res.send('NOT IMPLEMENTED: Genre create POST')
 }
 
