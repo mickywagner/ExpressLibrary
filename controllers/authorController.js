@@ -16,11 +16,10 @@ exports.author_create_get = function(req, res) {
 }
 
 // Handle Author create on POST
-exports.authors_create_post = function(req, res) {
-    exports.author_create_post = function(req, res) {
+exports.author_create_post = function(req, res) {
         res.send('NOT IMPLEMENTED: Author create POST')
-    }
 }
+
 
 // Display Author delete form on GET
 exports.author_delete_get = function(req, res) {
