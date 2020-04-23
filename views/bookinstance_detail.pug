@@ -4,9 +4,9 @@ block content
 
     h1 ID: #{bookinstance._id}
 
-    p #[strong Title:]
+    p #[strong Title: ]
         a(href=bookinstance.book.url) #{bookinstance.book.title}
-    p #[strong Imprint:] #{bookinstance.imprint}
+    p #[strong Imprint: ] #{bookinstance.imprint}
 
     p #[strong Status:] 
         if bookinstance.status=='Available'
@@ -18,3 +18,10 @@ block content
     
     if bookinstance.status!='Availalbe'
         p #[strong Due back:] #{bookinstance.due_back_formatted}
+    
+
+    hr
+    p
+        a(href=bookinstance.url + '/delete') Delete book instance
+    p
+        a(href=bookinstance.url + '/update') Update book instance
