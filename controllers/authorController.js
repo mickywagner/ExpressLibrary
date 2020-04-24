@@ -174,7 +174,6 @@ exports.author_update_post = [
             }
         )
         if(!errors.isEmpty()) {
-            console.log(errors)
             Author.findById(req.params.id)
             .populate('author')
             .exec(function(err, author) {
@@ -184,7 +183,6 @@ exports.author_update_post = [
                     err.status = 404
                     return next(err)
                 }
-                console.log('sending you back to form')
                 res.render('author_form', {title: 'Update Author', author: author})
             })
             return
