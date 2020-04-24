@@ -99,7 +99,11 @@ exports.bookinstance_delete_get = function(req, res, next) {
 
 // Handle BookInstance delete on POST
 exports.bookinstance_delete_post = function(req, res, next) {
-            
+    BookInstance.findByIdAndRemove(req.body.id, function deleteBookInstance(err) {
+        if(err) {return next(err)}
+        res.redirect('/catalog/bookinstances')
+    })
+    
 } 
 
 // DISPLAY BOOKINSTANCE  update form on GET

@@ -2,13 +2,12 @@ extends layout
 
 block content
     h1 #{title}: #{bookinstance.book.title}
-    p #{bookinstance.book._id}
 
     p Do you really want to delete this Book Instance?
 
     form(method='POST' action='')
         .form-group
-            input#bookinstanceid.form-control(type='text' name='bookinstanceid' required='true' value=bookinstance.book._id)
+            input#id.form-control(type='text' name='id' required='true' value=bookinstance._id)
         button.btn.btn-primary('submit') Delete
 
     
