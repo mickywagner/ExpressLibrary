@@ -2,22 +2,26 @@ extends layout
 
 block content
     h1 #{title}: #{book.title} 
-    p ID: #{book._id}
-    hr
 
     if books_bookinstances.length
-        p.text-danger #[strong Delete the following book instance before attempting to delete this book]
+        p #[strong Delete the following book instance before attempting to delete this book]
             each book in books_bookinstances
-                dd #{book.status}
+                hr
+                if book.status === 'Loaned' 
+                    dd.text-warning #{book.status}
+                if book.status === 'Maintenance'
+                    dd.text-danger #{book.status}
+                if book.status === 'Available'
+                    dd.text-success #{book.status}
                 dd #{book.imprint}
                 dt
                     a(href=book.url) #{book._id}
-                hr
+                
     
     else 
         form(method='POST' action='')
             .form-group
-                input#bookid.form-control(type='text' name='bookid' required='true' value=book._id)
+                input#bookid.form-control(type='hidden' name='bookid' required='true' value=book._id)
             button.btn.btn-primary(type='submit') Delete Book
 
 
