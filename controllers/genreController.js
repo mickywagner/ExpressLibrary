@@ -123,16 +123,15 @@ exports.genre_delete_post = function(req, res, next) {
 
 // Display Genre update form on GET.
 exports.genre_update_get = function(req, res, next) {
-    Genre.findById(req.params.id)
-        .populate('genre')
-        .exec(function(err, genre) {
-            if(err) { return next(err)}
-            if(genre==null) {
-                return 'Genre not found'
-                res.redirect('/catalog/genres')
-            }
-            res.render('genre_form', { title: 'Update Genre', genre: genre})
-        })
+    Genre.findById(req.params.id, function(err, genre) {
+        if(err) { return next(err)}
+        if(genre==null) {
+            var err = new Error('Genre not found')
+            err.status = 404
+            return next(err)
+        }
+        res.render('genre_form', { title: 'Update Genre', genre: genre})
+    })
 };
 
 // Handle Genre update on POST.
@@ -149,18 +148,8 @@ exports.genre_update_post = [
         })
 
         if(!errors.isEmpty()) {
-            Genre.findById(req.params.id)
-                .populate('genre')
-                .exec(function(err, genre) {
-                    if(err) {return next(err)}
-                    if(genre==null) {
-                        var err = new Error('Genre not found')
-                        err.status = 404
-                        res.redirect('/catalog/genres')
-                    }
-                    res.render('genre_form', {title: 'Update Genre', genre: genre})
-                })
-                return
+            res.render('genre_form', {title: 'Update Genre', genre: genre, errors: errors.array()})
+            return
         } else {
             Genre.findByIdAndUpdate(req.params.id, genre, {}, function updateGenre(err, thegenre) {
                 if(err) { return next(err)}

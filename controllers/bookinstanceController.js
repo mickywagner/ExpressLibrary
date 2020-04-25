@@ -88,9 +88,7 @@ exports.bookinstance_delete_get = function(req, res, next) {
     .exec(function(err, bookinstance) {
         if(err) { return next(err)}
         if(bookinstance==null) {
-            var err = new Error('Book not found')
-            err.status = 404
-            return next(err)
+            res.redirect('/catalog/bookinstances')
         }
         res.render('bookinstance_delete', { title: 'Delete Book', bookinstance: bookinstance})
     })
@@ -109,7 +107,6 @@ exports.bookinstance_delete_post = function(req, res, next) {
 // DISPLAY BOOKINSTANCE  update form on GET
 exports.bookinstance_update_get = function(req, res, next) {
     
-    // Get the book, imprint, availability, status
     async.parallel({
         bookinstance: function(callback) {
             BookInstance.findById(req.params.id).populate('book').exec(callback)
@@ -125,7 +122,7 @@ exports.bookinstance_update_get = function(req, res, next) {
             return next(err)
         }
         res.render('bookinstance_form', {title: 'Update Book Instance', book_list: results.books, selected_book: results.bookinstance.book._id, bookinstance: results.bookinstance})
-        // res.render('bookinstance_form', {title: 'Update Book Instance', bookinstance: results.bookinstance, book_list: results.books})
+        
     })
 
 }
@@ -154,27 +151,11 @@ exports.bookinstance_update_post = [
             }
         )
         if(!errors.isEmpty()) {
-            // Book.find({}, 'title')
-            //     .exec(function(err, books) {
-            //         if(err) {return next(err)}
-            //         res.render('bookinstance_form', { title: 'Update Book Instance', book_list: books, selected_book: bookinstance.book._id, errors: errors.array(), bookinstance: bookinstance})
-            //     })
-            async.parallel({
-                bookinstance: function(callback) {
-                    BookInstance.findById(req.params.id).populate('book').exec(callback)
-                },
-                books: function(callback) {
-                    Book.find(callback)
-                }
-            }, function(err, results) {
-                if(err) { return next(err) }
-                if(results.bookinstance==null) {
-                    var error = new Error('Book instnace not found')
-                    error.status = 404
-                    return next(err)
-                }
-                res.render('bookinstance_form', {title: 'Update Book Instance', bookinstance: results.bookinstance, book_list: results.books})
-            })
+            Book.find({}, 'title')
+                .exec(function(err, books) {
+                    if(err) {return next(err)}
+                    res.render('bookinstance_form', { title: 'Update Book Instance', book_list: books, selected_book: bookinstance.book._id, errors: errors.array(), bookinstance: bookinstance})
+                })
             return
         } else {
             BookInstance.findByIdAndUpdate(req.params.id, bookinstance, {}, function(err, thebookinstance) {
