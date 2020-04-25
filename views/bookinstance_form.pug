@@ -2,7 +2,7 @@ extends layout
 
 block content
     h1=title
-
+   
     form(method='POST' action='')
         .form-group
             label(for='book') Book:
@@ -19,7 +19,7 @@ block content
             input#imprint.form-control(type='text' placeholder='Publisher and date information' name='imprint' required='true' value=(undefined===bookinstance ? '' : bookinstance.imprint))
         .form-group
             label(for='due_back') Date when book available:
-            input#due_back.form-control(type='date' name='due_back' value=(undefined===bokinstance ? '' : bookinstance.due_back))
+            input#due_back.form-control(type='date' name='due_back' value=(undefined===bookinstance ? '' : bookinstance.update_format))
         
         .form-group
             label(for='status') Status:
